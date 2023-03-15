@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_redemtion_scbtechx/ui/view/product_detail_page.dart';
+import 'package:flutter_redemtion_scbtechx/ui/view/product_list_page.dart';
+import 'package:flutter_redemtion_scbtechx/ui/view/redemption_page.dart';
+import 'package:flutter_redemtion_scbtechx/ui/view/success_page.dart';
+
+class RoutePaths {
+  static const String index = '/';
+  static const String productListPage = '/product_list_page';
+  static const String productDetailPage = '/product_detail_page';
+  static const String redemptionPage = '/redemption_page';
+  static const String successPage = '/success_page';
+}
+
+class Router {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    Map<String, dynamic> arguments = Map<String, dynamic>.from(settings.arguments == null ? {} : settings.arguments as Map<String, dynamic>);
+
+    switch (settings.name) {
+      case RoutePaths.productListPage:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const ProductListPage(),
+        );
+      case RoutePaths.productDetailPage:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const ProductDetailPage(),
+        );
+      case RoutePaths.redemptionPage:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const RedemptionPage(),
+        );
+      case RoutePaths.successPage:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const SuccessPage(),
+        );
+      default:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => Scaffold(
+            body: Center(
+              child: Text('No route defined for ${settings.name}'),
+            ),
+          ),
+        );
+    }
+  }
+}
