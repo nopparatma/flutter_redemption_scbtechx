@@ -14,11 +14,16 @@ class UserDataRs {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'UserDataRs{customerData: $customerData}';
+  }
 }
 
 class CustomerData {
   String? name;
-  int? pointAmount;
+  num? pointAmount;
   String? email;
 
   CustomerData({this.name, this.pointAmount, this.email});
@@ -35,5 +40,10 @@ class CustomerData {
     data['pointAmount'] = pointAmount;
     data['email'] = email;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'CustomerData{name: $name, pointAmount: $pointAmount, email: $email}';
   }
 }

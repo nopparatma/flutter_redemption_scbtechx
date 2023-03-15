@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redemtion_scbtechx/ui/view/product_detail_page.dart';
+import 'package:flutter_redemtion_scbtechx/ui/view/product_list_page.dart';
+import 'package:flutter_redemtion_scbtechx/ui/view/redemption_page.dart';
+import 'package:flutter_redemtion_scbtechx/ui/view/success_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const ProductListPage(),
     );
   }
 }

@@ -19,15 +19,20 @@ class ProductDataRs {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'ProductDataRs{product: $product}';
+  }
 }
 
 class Product {
   String? name;
   String? description;
   String? image;
-  int? price;
-  double? rateBahtPerPoint;
-  int? stock;
+  num? price;
+  num? rateBahtPerPoint;
+  num? stock;
 
   Product({name, description, image, price, rateBahtPerPoint, stock});
 
@@ -49,5 +54,10 @@ class Product {
     data['rateBahtPerPoint'] = rateBahtPerPoint;
     data['stock'] = stock;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'Product{name: $name, description: $description, image: $image, price: $price, rateBahtPerPoint: $rateBahtPerPoint, stock: $stock}';
   }
 }
