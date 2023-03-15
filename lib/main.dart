@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redemtion_scbtechx/ui/router.dart';
 import 'package:flutter_redemtion_scbtechx/ui/view/product_detail_page.dart';
 import 'package:flutter_redemtion_scbtechx/ui/view/product_list_page.dart';
 import 'package:flutter_redemtion_scbtechx/ui/view/redemption_page.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      onGenerateRoute: MobileRouter.generateRoute,
       home: const ProductListPage(),
     );
   }

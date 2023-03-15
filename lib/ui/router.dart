@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redemtion_scbtechx/models/product_data_rs.dart';
 import 'package:flutter_redemtion_scbtechx/ui/view/product_detail_page.dart';
 import 'package:flutter_redemtion_scbtechx/ui/view/product_list_page.dart';
 import 'package:flutter_redemtion_scbtechx/ui/view/redemption_page.dart';
@@ -12,7 +13,7 @@ class RoutePaths {
   static const String successPage = '/success_page';
 }
 
-class Router {
+class MobileRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     Map<String, dynamic> arguments = Map<String, dynamic>.from(settings.arguments == null ? {} : settings.arguments as Map<String, dynamic>);
 
@@ -25,7 +26,7 @@ class Router {
       case RoutePaths.productDetailPage:
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => const ProductDetailPage(),
+          builder: (_) => ProductDetailPage(productItem: arguments['productItem']),
         );
       case RoutePaths.redemptionPage:
         return MaterialPageRoute(

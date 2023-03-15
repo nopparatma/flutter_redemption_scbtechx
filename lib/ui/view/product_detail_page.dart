@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redemtion_scbtechx/models/product_data_rs.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  const ProductDetailPage({super.key});
+  final Product productItem;
+
+  const ProductDetailPage({super.key, required this.productItem});
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -35,11 +38,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         elevation: 5,
                         child: Stack(
                           children: [
-                            CachedNetworkImage(
-                              alignment: Alignment.center,
-                              imageUrl: 'https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-max-colors.png',
-                              fit: BoxFit.contain,
-                              height: 300,
+                            Center(
+                              child: CachedNetworkImage(
+                                alignment: Alignment.center,
+                                imageUrl: widget.productItem.image ?? '',
+                                fit: BoxFit.contain,
+                                height: 300,
+                                errorWidget: (context, url, error) {
+                                  return Container(color: Colors.grey);
+                                },
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
