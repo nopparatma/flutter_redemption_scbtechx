@@ -16,6 +16,7 @@ class SummaryPanel extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
+                  elevation: 5,
                   child: CachedNetworkImage(
                     alignment: Alignment.center,
                     imageUrl: 'https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-max-colors.png',
@@ -42,15 +43,11 @@ class SummaryPanel extends StatelessWidget {
   Widget _buildText(String textLeft, String textRight) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(textLeft, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(textRight),
-            ],
-          ),
+          Text(textLeft, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(textRight),
         ],
       ),
     );
