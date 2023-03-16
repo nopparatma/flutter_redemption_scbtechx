@@ -27,7 +27,11 @@ class ApplicationState extends Equatable {
   }
 
   num calPointUsed(num productPrice, num rateBathPerPoint) {
-    num sum = productPrice / (rateBathPerPoint / 1);
+    num sum = productPrice / rateBathPerPoint;
     return num.parse(sum.toStringAsFixed(2));
+  }
+
+  bool isFavoriteProduct(Product currentItem) {
+    return userSession?.favoriteProducts?.contains(currentItem) ?? false;
   }
 }

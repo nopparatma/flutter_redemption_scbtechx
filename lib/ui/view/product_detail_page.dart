@@ -6,6 +6,7 @@ import 'package:flutter_redemption_scbtechx/models/product_data_rs.dart';
 import 'package:flutter_redemption_scbtechx/ui/shared/theme.dart';
 import 'package:flutter_redemption_scbtechx/ui/widget/custom_button.dart';
 
+import '../../models/view/user_session_dto.dart';
 import '../../utillties/string_util.dart';
 import '../router.dart';
 
@@ -22,6 +23,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   bool get isSoldOut => ((widget.productItem.stock ?? 0) <= 0);
 
   num get remainPointAmt => BlocProvider.of<ApplicationBloc>(context).state.remainPointAmt();
+
+  onPressedStar(bool isCurrentStateFavorite) {
+    UserSessionDto? userSessionDto = BlocProvider.of<ApplicationBloc>(context).state.userSession;
+    List<Product> favoriteProducts = userSessionDto?.favoriteProducts ?? [];
+
+    if (isCurrentStateFavorite) {
+      favoriteProducts.remove(widget.productItem);
+    } else {
+      favoriteProducts.add(widget.productItem);
+    }
+
+    userSessionDto?.favoriteProducts = favoriteProducts;
+
+    context.read<ApplicationBloc>().add(ApplicationUpdateStateModelEvent(userSession: userSessionDto));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,32 +76,41 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 },
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Stack(
-                                  children: <Widget>[
-                                    Positioned(
-                                      child: IconButton(
-                                        iconSize: 55,
-                                        icon: const Icon(
-                                          Icons.star,
-                                          color: Colors.black54,
+                            BlocBuilder<ApplicationBloc, ApplicationState>(
+                              builder: (context, state) {
+                                bool isFavoriteProduct = state.isFavoriteProduct(widget.productItem);
+
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Stack(
+                                      children: <Widget>[
+                                        Positioned(
+                                          child: IconButton(
+                                            iconSize: 55,
+                                            icon: const Icon(
+                                              Icons.star,
+                                              color: Colors.black54,
+                                            ),
+                                            onPressed: () {},
+                                          ),
                                         ),
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                    IconButton(
-                                      iconSize: 50,
-                                      icon: const Icon(
-                                        Icons.star,
-                                        color: Colors.yellow,
-                                      ),
-                                      onPressed: () {},
+                                        IconButton(
+                                          iconSize: 50,
+                                          icon: Icon(
+                                            Icons.star,
+                                            color: isFavoriteProduct ? Colors.yellow : Colors.grey,
+                                          ),
+                                          onPressed: () {
+                                            onPressedStar(isFavoriteProduct);
+                                            setState(() {});
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   ],
-                                ),
-                              ],
+                                );
+                              },
                             ),
                           ],
                         ),
