@@ -9,6 +9,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../models/product_data_rs.dart';
 import '../../models/user_data_rs.dart';
 import '../router.dart';
+import '../widget/custom_dropdown_button.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -20,6 +21,13 @@ class ProductListPage extends StatefulWidget {
 class _ProductListPageState extends State<ProductListPage> {
   late UserDataRs userDataRs;
   late ProductDataRs productDataRs;
+
+  final List<String> items = [
+    'Sort : Price',
+    'Sort : Rate',
+  ];
+
+  String? selectedValue;
 
   @override
   void initState() {
@@ -171,6 +179,25 @@ class _ProductListPageState extends State<ProductListPage> {
       ),
       body: Column(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomDropdownButton(
+                  hint: 'Sort',
+                  dropdownItems: items,
+                  value: selectedValue,
+                  icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValue = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: ListView(
               physics: const BouncingScrollPhysics(),
@@ -179,8 +206,6 @@ class _ProductListPageState extends State<ProductListPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: StaggeredGrid.count(
                     crossAxisCount: 2,
-                    // mainAxisSpacing: 2,
-                    // crossAxisSpacing: 2,
                     children: productDataRs.product?.map((e) => _buildProductItem(e)).toList() ?? [],
                   ),
                 ),
