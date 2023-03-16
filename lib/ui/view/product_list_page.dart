@@ -3,13 +3,20 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_redemption_scbtechx/services/redemption_service.dart';
+import 'package:flutter_redemption_scbtechx/utillties/string_util.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../bloc/application/application_bloc.dart';
+import '../../bloc/redemption/redemption_bloc.dart';
 import '../../models/product_data_rs.dart';
 import '../../models/user_data_rs.dart';
 import '../router.dart';
 import '../widget/custom_dropdown_button.dart';
+
+enum Sort { price, rate }
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -19,9 +26,6 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _ProductListPageState extends State<ProductListPage> {
-  late UserDataRs userDataRs;
-  late ProductDataRs productDataRs;
-
   final List<String> items = [
     'Sort : Price',
     'Sort : Rate',
@@ -33,121 +37,7 @@ class _ProductListPageState extends State<ProductListPage> {
   void initState() {
     super.initState();
 
-    productDataRs = ProductDataRs.fromJson(json.decode('''{
-   "product":[
-      {
-         "name":"MacBook",
-         "description":"MacBook is a term used for a brand of Mac notebook computers that Apple started producing in 2006. The American multinational corporation created MacBook computers when it consolidated its PowerBook and iBook lines during its transition to Intel processor-based products. As of 2013, there are two types of MacBook computers: the base-level MacBook Air and the upper-level MacBook Pro.",
-         "image":"https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HA244?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1670455592623",
-         "price":40000,
-         "rateBahtPerPoint":4,
-         "stock":3
-      },
-      {
-         "name":"iPhone",
-         "description":"The iPhone is a smartphone made by Apple that combines a computer, iPod, digital camera, and cellular phone into one device with a touchscreen interface. The iPhone runs the iOS operating system, and in 2021 when the iPhone 13 was introduced, it offered up to 1 TB of storage and a 12-megapixel camera.",
-         "image":"https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-max-colors.png",
-         "price":35000,
-         "rateBahtPerPoint":5,
-         "stock":0
-      },
-      {
-         "name":"Philips 3000 Series Air Fryer",
-         "description":"Philips 3000 Series Air Fryer Essential Compact with Rapid Air Technology, 13-in-1 Cooking Functions to Fry, Bake, Grill, Roast & Reheat with up to 90% Less Fat*, Black, 4.1L capacity, (HD9252/91)",
-         "price":3200,
-         "rateBahtPerPoint":8,
-         "stock":2
-      },
-      {
-         "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
-         "description":"",
-         "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
-         "price":2850,
-         "rateBahtPerPoint":6.5,
-         "stock":3
-      },
-      {
-         "name":"MacBook",
-         "description":"MacBook is a term used for a brand of Mac notebook computers that Apple started producing in 2006. The American multinational corporation created MacBook computers when it consolidated its PowerBook and iBook lines during its transition to Intel processor-based products. As of 2013, there are two types of MacBook computers: the base-level MacBook Air and the upper-level MacBook Pro.",
-         "image":"https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HA244?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1670455592623",
-         "price":40000,
-         "rateBahtPerPoint":4,
-         "stock":0
-      },
-      {
-         "name":"iPhone",
-         "description":"The iPhone is a smartphone made by Apple that combines a computer, iPod, digital camera, and cellular phone into one device with a touchscreen interface. The iPhone runs the iOS operating system, and in 2021 when the iPhone 13 was introduced, it offered up to 1 TB of storage and a 12-megapixel camera.",
-         "image":"https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-max-colors.png",
-         "price":35000,
-         "rateBahtPerPoint":5,
-         "stock":5
-      },
-      {
-         "name":"Philips 3000 Series Air Fryer",
-         "description":"Philips 3000 Series Air Fryer Essential Compact with Rapid Air Technology, 13-in-1 Cooking Functions to Fry, Bake, Grill, Roast & Reheat with up to 90% Less Fat*, Black, 4.1L capacity, (HD9252/91)",
-         "image":"https://m.media-amazon.com/images/I/515mBP-G16L._AC_SY300_SX300_.jpg",
-         "price":3200,
-         "rateBahtPerPoint":8.5,
-         "stock":8
-      },
-      {
-         "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
-         "description":"All-day protection for those who suffer from rhinitis and allergies. Xiaomi Smart Air Purifier 4 protects your respiratory health by keeping the air in your home clean and safe to breathe.",
-         "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
-         "price":2850,
-         "rateBahtPerPoint":6,
-         "stock":0
-      },
-      {
-         "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
-         "description":"All-day protection for those who suffer from rhinitis and allergies. Xiaomi Smart Air Purifier 4 protects your respiratory health by keeping the air in your home clean and safe to breathe.",
-         "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
-         "price":2850,
-         "rateBahtPerPoint":6,
-         "stock":0
-      },
-      {
-         "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
-         "description":"All-day protection for those who suffer from rhinitis and allergies. Xiaomi Smart Air Purifier 4 protects your respiratory health by keeping the air in your home clean and safe to breathe.",
-         "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
-         "price":2850,
-         "rateBahtPerPoint":6,
-         "stock":0
-      },
-      {
-         "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
-         "description":"All-day protection for those who suffer from rhinitis and allergies. Xiaomi Smart Air Purifier 4 protects your respiratory health by keeping the air in your home clean and safe to breathe.",
-         "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
-         "price":2850,
-         "rateBahtPerPoint":6,
-         "stock":0
-      },
-      {
-         "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
-         "description":"All-day protection for those who suffer from rhinitis and allergies. Xiaomi Smart Air Purifier 4 protects your respiratory health by keeping the air in your home clean and safe to breathe.",
-         "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
-         "price":2850,
-         "rateBahtPerPoint":6,
-         "stock":0
-      },
-      {
-         "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
-         "description":"All-day protection for those who suffer from rhinitis and allergies. Xiaomi Smart Air Purifier 4 protects your respiratory health by keeping the air in your home clean and safe to breathe.",
-         "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
-         "price":2850,
-         "rateBahtPerPoint":6,
-         "stock":0
-      },
-      {
-         "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
-         "description":"All-day protection for those who suffer from rhinitis and allergies. Xiaomi Smart Air Purifier 4 protects your respiratory health by keeping the air in your home clean and safe to breathe.",
-         "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
-         "price":2850,
-         "rateBahtPerPoint":6,
-         "stock":0
-      }
-   ]
-}'''));
+    context.read<RedemptionBloc>().add(SortDataEvent());
   }
 
   @override
@@ -155,26 +45,33 @@ class _ProductListPageState extends State<ProductListPage> {
     super.dispose();
   }
 
-  // test() async {
-  //   RedemptionService redemptionService = RedemptionService();
-  //
-  //   UserDataRs userDataRs = await redemptionService.getUserData();
-  //   print(userDataRs);
-  //
-  //   ProductDataRs productDataRs = await redemptionService.getProductData();
-  //   print(productDataRs);
-  // }
+  onChangedSort(String value) {
+    if (value.contains('Price')) {
+      context.read<RedemptionBloc>().add(SortDataEvent(sortMode: Sort.price));
+    } else if (value.contains('Rate')) {
+      context.read<RedemptionBloc>().add(SortDataEvent(sortMode: Sort.rate));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text('Name'),
-            Text('x,xxx Point'),
-          ],
+        title: BlocBuilder<ApplicationBloc, ApplicationState>(
+          builder: (context, state) {
+            CustomerData? custData = state.userSession?.userDataRs?.customerData;
+            if (custData != null) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(custData.name ?? ''),
+                  Text('${StringUtil.getDisplayNumber(state.remainPointAmt())} Point'),
+                ],
+              );
+            }
+
+            return Container();
+          },
         ),
       ),
       body: Column(
@@ -190,6 +87,7 @@ class _ProductListPageState extends State<ProductListPage> {
                   value: selectedValue,
                   icon: const Icon(Icons.keyboard_arrow_down_outlined),
                   onChanged: (value) {
+                    onChangedSort(value ?? '');
                     setState(() {
                       selectedValue = value;
                     });
@@ -198,19 +96,36 @@ class _ProductListPageState extends State<ProductListPage> {
               ),
             ],
           ),
-          Expanded(
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: StaggeredGrid.count(
-                    crossAxisCount: 2,
-                    children: productDataRs.product?.map((e) => _buildProductItem(e)).toList() ?? [],
+          BlocBuilder<RedemptionBloc, RedemptionState>(
+            builder: (context, state) {
+              if (state is LoadingRedemptionState) {
+                return Expanded(
+                  child: Center(
+                    child: LoadingAnimationWidget.discreteCircle(
+                      color: Colors.deepPurple,
+                      size: 100,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                );
+              } else if (state is SuccessSortDataState && state.products != null) {
+                return Expanded(
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: StaggeredGrid.count(
+                          crossAxisCount: 2,
+                          children: state.products?.map((e) => _buildProductItem(e)).toList() ?? [],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Container();
+            },
           ),
         ],
       ),
@@ -228,7 +143,7 @@ class _ProductListPageState extends State<ProductListPage> {
           elevation: 4,
           backgroundColor: Colors.white,
           padding: const EdgeInsets.all(0),
-          shadowColor: Colors.blue,
+          shadowColor: Colors.deepPurple,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -255,8 +170,8 @@ class _ProductListPageState extends State<ProductListPage> {
                 ),
               ],
             ),
-            Text(productItem.price?.toString() ?? '', style: const TextStyle(color: Colors.black)),
-            Text(productItem.rateBahtPerPoint?.toString() ?? '', style: const TextStyle(color: Colors.black)),
+            Text(StringUtil.getDisplayNumber(productItem.price ?? 0), style: const TextStyle(color: Colors.black)),
+            Text(StringUtil.getDisplayNumber(productItem.rateBahtPerPoint ?? 0), style: const TextStyle(color: Colors.black)),
           ],
         ),
       ),

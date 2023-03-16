@@ -31,12 +31,12 @@ class MobileRouter {
       case RoutePaths.redemptionPage:
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => const RedemptionPage(),
+          builder: (_) => RedemptionPage(productItem: arguments['productItem']),
         );
       case RoutePaths.successPage:
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => const SuccessPage(),
+          builder: (_) => SuccessPage(productItem: arguments['productItem']),
         );
       default:
         return MaterialPageRoute(

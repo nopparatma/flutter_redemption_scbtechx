@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_redemption_scbtechx/bloc/application/application_bloc.dart';
 import 'package:flutter_redemption_scbtechx/models/product_data_rs.dart';
+import 'package:flutter_redemption_scbtechx/ui/shared/theme.dart';
 import 'package:flutter_redemption_scbtechx/ui/widget/custom_button.dart';
 
+import '../../utillties/string_util.dart';
 import '../router.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -15,14 +19,18 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  bool get isSoldOut => ((widget.productItem.stock ?? 0) <= 0);
+
+  num get remainPointAmt => BlocProvider.of<ApplicationBloc>(context).state.remainPointAmt();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Expanded(child: Text('x,xxx Point', textAlign: TextAlign.right)),
+          children: [
+            Expanded(child: Text('${StringUtil.getDisplayNumber(remainPointAmt)} Point', textAlign: TextAlign.right)),
           ],
         ),
       ),
@@ -89,18 +97,34 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Product Name', style: TextStyle(fontWeight: FontWeight.bold)),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      widget.productItem.name ?? '',
+                                      style: Theme.of(context).textTheme.normal.copyWith(fontWeight: FontWeight.bold),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(height: 10),
-                              _buildText('Price', 'Rate'),
+                              _buildText(
+                                StringUtil.getDisplayNumber(widget.productItem.price ?? 0),
+                                StringUtil.getDisplayNumber(widget.productItem.rateBahtPerPoint ?? 0),
+                              ),
                             ],
                           ),
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text('''MacBook is a term used for a brand of Mac notebook computers that Apple started producing in 2006. The American multinational corporation created MacBook computers when it consolidated its PowerBook and iBook lines during its transition to Intel processor-based products. As of 2013, there are two types of MacBook computers: the base-level MacBook Air and the upper-level MacBook Pro.
-                        MacBook is a term used for a brand of Mac notebook computers that Apple started producing in 2006. The American multinational corporation created MacBook computers when it consolidated its PowerBook and iBook lines during its transition to Intel processor-based products. As of 2013, there are two types of MacBook computers: the base-level MacBook Air and the upper-level MacBook Pro.''', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(
+                          widget.productItem.description ?? '',
+                          style: Theme.of(context).textTheme.normal.copyWith(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),
@@ -108,13 +132,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ],
             ),
           ),
-          CustomButton(
-            text: 'Next',
-            color: Colors.green,
-            onPressed: () {
-              Navigator.of(context).pushNamed(RoutePaths.redemptionPage);
-            },
-          ),
+          isSoldOut
+              ? CustomButton(
+                  text: 'Sold Out',
+                  color: Colors.grey,
+                  onPressed: () {},
+                )
+              : CustomButton(
+                  text: 'Next',
+                  color: Colors.green,
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(RoutePaths.redemptionPage, arguments: {'productItem': widget.productItem});
+                  },
+                ),
         ],
       ),
     );
@@ -124,8 +154,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(textLeft, style: const TextStyle(fontWeight: FontWeight.bold)),
-        Text(textRight, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(textLeft, style: Theme.of(context).textTheme.normal.copyWith(fontWeight: FontWeight.bold)),
+        Text('$textRight Bath : 1 Point', style: Theme.of(context).textTheme.normal.copyWith(fontWeight: FontWeight.bold)),
       ],
     );
   }

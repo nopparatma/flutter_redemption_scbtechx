@@ -1,8 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/product_data_rs.dart';
+import '../../utillties/string_util.dart';
+
 class SummaryPanel extends StatelessWidget {
-  const SummaryPanel({super.key});
+  final Product productItem;
+  final num pointUsed;
+  final num pointBalance;
+
+  const SummaryPanel({super.key, required this.productItem, required this.pointUsed, required this.pointBalance});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class SummaryPanel extends StatelessWidget {
                   elevation: 5,
                   child: CachedNetworkImage(
                     alignment: Alignment.center,
-                    imageUrl: 'https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-max-colors.png',
+                    imageUrl: productItem.image ?? '',
                     fit: BoxFit.contain,
                     height: 300,
                     errorWidget: (context, url, error) {
@@ -29,13 +36,13 @@ class SummaryPanel extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildText('Product', 'Name'),
-              _buildText('Price', '100 ฿'),
+              _buildText('Product', productItem.name ?? ''),
+              _buildText('Price', '${StringUtil.getDisplayNumber(productItem.price ?? 0)} Baht'),
               const SizedBox(height: 5),
-              _buildText('Rate', '4 ฿ : 1 point'),
+              _buildText('Rate', '${StringUtil.getDisplayNumber(productItem.rateBahtPerPoint ?? 0)} Baht : 1 point'),
               const SizedBox(height: 5),
-              _buildText('Total Point', '25 point'),
-              _buildText('Point Balance', '75 point'),
+              _buildText('Total Point', '${StringUtil.getDisplayNumber(pointUsed)} point'),
+              _buildText('Point Balance', '${StringUtil.getDisplayNumber(pointBalance)} point'),
             ],
           ),
         ],

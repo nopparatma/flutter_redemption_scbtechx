@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_redemption_scbtechx/bloc/application/application_bloc.dart';
+import 'package:flutter_redemption_scbtechx/bloc/redemption/redemption_bloc.dart';
+import 'package:flutter_redemption_scbtechx/bloc/splash_load/splash_load_bloc.dart';
 import 'package:flutter_redemption_scbtechx/ui/router.dart';
-import 'package:flutter_redemption_scbtechx/ui/view/product_detail_page.dart';
-import 'package:flutter_redemption_scbtechx/ui/view/product_list_page.dart';
-import 'package:flutter_redemption_scbtechx/ui/view/redemption_page.dart';
-import 'package:flutter_redemption_scbtechx/ui/view/success_page.dart';
+import 'package:flutter_redemption_scbtechx/ui/view/splash_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,59 +15,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      onGenerateRoute: MobileRouter.generateRoute,
-      home: const ProductListPage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ApplicationBloc>(
+          create: (context) => ApplicationBloc(),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        BlocProvider<RedemptionBloc>(
+          create: (context) => RedemptionBloc(BlocProvider.of<ApplicationBloc>(context)),
+        ),
+        BlocProvider<SplashLoadBloc>(
+          create: (context) => SplashLoadBloc(BlocProvider.of<ApplicationBloc>(context)),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+        ),
+        onGenerateRoute: MobileRouter.generateRoute,
+        home: const SplashPage(),
       ),
     );
   }
