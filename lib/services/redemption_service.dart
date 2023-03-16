@@ -1,5 +1,5 @@
-import 'package:flutter_redemtion_scbtechx/models/product_data_rs.dart';
-import 'package:flutter_redemtion_scbtechx/models/user_data_rs.dart';
+import 'package:flutter_redemption_scbtechx/models/product_data_rs.dart';
+import 'package:flutter_redemption_scbtechx/models/user_data_rs.dart';
 
 import 'base_service.dart';
 

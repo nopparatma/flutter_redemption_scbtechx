@@ -1,4 +1,4 @@
-package com.example.flutter_redemtion_scbtechx
+package com.example.flutter_redemption_scbtechx
 
 import io.flutter.embedding.android.FlutterActivity
 

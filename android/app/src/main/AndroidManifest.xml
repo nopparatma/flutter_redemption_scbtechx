@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_redemtion_scbtechx">
+    package="com.example.flutter_redemption_scbtechx">
    <application
-        android:label="flutter_redemtion_scbtechx"
+        android:label="flutter_redemption_scbtechx"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

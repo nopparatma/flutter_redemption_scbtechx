@@ -22,6 +22,9 @@ class SummaryPanel extends StatelessWidget {
                     imageUrl: 'https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-max-colors.png',
                     fit: BoxFit.contain,
                     height: 300,
+                    errorWidget: (context, url, error) {
+                      return Container(color: Colors.grey);
+                    },
                   ),
                 ),
               ),

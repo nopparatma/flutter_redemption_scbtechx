@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redemtion_scbtechx/models/product_data_rs.dart';
+import 'package:flutter_redemption_scbtechx/models/product_data_rs.dart';
+import 'package:flutter_redemption_scbtechx/ui/widget/custom_button.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product productItem;
@@ -105,12 +106,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ],
             ),
           ),
-          Container(
-            height: 50,
-            color: Colors.red,
-            child: const Center(
-              child: Text('Next'),
-            ),
+          CustomButton(
+            text: 'Next',
+            color: Colors.green,
+            onPressed: () {},
           ),
         ],
       ),

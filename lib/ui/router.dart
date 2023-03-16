@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redemtion_scbtechx/models/product_data_rs.dart';
-import 'package:flutter_redemtion_scbtechx/ui/view/product_detail_page.dart';
-import 'package:flutter_redemtion_scbtechx/ui/view/product_list_page.dart';
-import 'package:flutter_redemtion_scbtechx/ui/view/redemption_page.dart';
-import 'package:flutter_redemtion_scbtechx/ui/view/success_page.dart';
+import 'package:flutter_redemption_scbtechx/models/product_data_rs.dart';
+import 'package:flutter_redemption_scbtechx/ui/view/product_detail_page.dart';
+import 'package:flutter_redemption_scbtechx/ui/view/product_list_page.dart';
+import 'package:flutter_redemption_scbtechx/ui/view/redemption_page.dart';
+import 'package:flutter_redemption_scbtechx/ui/view/success_page.dart';
 
 class RoutePaths {
   static const String index = '/';
