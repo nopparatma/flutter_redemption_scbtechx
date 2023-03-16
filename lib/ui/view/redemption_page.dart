@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../router.dart';
+import '../widget/custom_button.dart';
 import '../widget/summary_panel.dart';
 
 class RedemptionPage extends StatefulWidget {
@@ -18,12 +20,12 @@ class _RedemptionPageState extends State<RedemptionPage> {
       body: Column(
         children: [
           const SummaryPanel(),
-          Container(
-            height: 50,
-            color: Colors.red,
-            child: const Center(
-              child: Text('Redeem'),
-            ),
+          CustomButton(
+            text: 'Redeem',
+            color: Colors.green,
+            onPressed: () {
+              Navigator.of(context).pushNamed(RoutePaths.successPage);
+            },
           ),
         ],
       ),

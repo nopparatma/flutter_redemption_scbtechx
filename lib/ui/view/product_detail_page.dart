@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redemption_scbtechx/models/product_data_rs.dart';
 import 'package:flutter_redemption_scbtechx/ui/widget/custom_button.dart';
 
+import '../router.dart';
+
 class ProductDetailPage extends StatefulWidget {
   final Product productItem;
 
@@ -109,7 +111,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           CustomButton(
             text: 'Next',
             color: Colors.green,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(RoutePaths.redemptionPage);
+            },
           ),
         ],
       ),

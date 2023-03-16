@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
             elevation: 4,
             padding: const EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
           ),
           onPressed: onPressed,
