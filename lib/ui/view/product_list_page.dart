@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_redemption_scbtechx/services/redemption_service.dart';
+import 'package:flutter_redemption_scbtechx/ui/shared/theme.dart';
 import 'package:flutter_redemption_scbtechx/utillties/string_util.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -142,7 +143,7 @@ class _ProductListPageState extends State<ProductListPage> {
         style: ElevatedButton.styleFrom(
           elevation: 4,
           backgroundColor: Colors.white,
-          padding: const EdgeInsets.all(0),
+          padding: const EdgeInsets.all(5),
           shadowColor: Colors.deepPurple,
         ),
         child: Column(
@@ -165,13 +166,18 @@ class _ProductListPageState extends State<ProductListPage> {
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black),
+                    style: Theme.of(context).textTheme.xNormal.copyWith(fontWeight: FontWeight.bold, color: Colors.black),
                   ),
                 ),
               ],
             ),
-            Text(StringUtil.getDisplayNumber(productItem.price ?? 0), style: const TextStyle(color: Colors.black)),
-            Text(StringUtil.getDisplayNumber(productItem.rateBahtPerPoint ?? 0), style: const TextStyle(color: Colors.black)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Price : ${StringUtil.getDisplayNumber(productItem.price ?? 0)}', style: const TextStyle(color: Colors.black)),
+                Text('Rate : ${StringUtil.getDisplayNumber(productItem.rateBahtPerPoint ?? 0)} Baht/Point', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
           ],
         ),
       ),

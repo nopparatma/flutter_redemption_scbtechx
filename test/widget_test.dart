@@ -1,30 +1,63 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter_redemption_scbtechx/ui/view/product_detail_page.dart';
+import 'package:flutter_redemption_scbtechx/ui/view/product_list_page.dart';
+import 'package:flutter_redemption_scbtechx/ui/view/splash_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_redemption_scbtechx/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('SplashPage first view', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('Find Card', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('Image null must be show gray color background', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Find Dropdown', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
+  });
+
+  testWidgets('Favourite button yellow (When pressed Star)', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
+  });
+
+  testWidgets('Can Change Page', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
+  });
+
+  testWidgets('Send Email success must be show Success Dialog', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
+  });
+
+  testWidgets('Send Email Error must be show Error Dialog', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
+  });
+
+  testWidgets('Stock <= 0 (Button = gray color & Text = Sold Out)', (WidgetTester tester) async {
+    // Process
+    //
+    // expect
   });
 }
