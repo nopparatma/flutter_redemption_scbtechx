@@ -35,7 +35,7 @@ class EmailBloc extends Bloc<EmailEvent, EmailState> {
       ..accessToken = 'iAopJio9lT66dBTZ_UI3I'
       ..templateParams = TemplateParams(
         toName: cust?.name ?? '',
-        userEmail: 'yachty22541@gmail.com',//cust?.email ?? '',
+        userEmail: cust?.email ?? '',
         productName: event.productItem.name,
         productPrice: '${StringUtil.getDisplayNumber(event.productItem.price ?? 0)} Baht',
         productRate: '${StringUtil.getDisplayNumber(event.productItem.rateBahtPerPoint ?? 0)} Baht / 1 Point',
