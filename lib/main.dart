@@ -5,6 +5,8 @@ import 'package:flutter_redemption_scbtechx/bloc/redemption/redemption_bloc.dart
 import 'package:flutter_redemption_scbtechx/bloc/splash_load/splash_load_bloc.dart';
 import 'package:flutter_redemption_scbtechx/ui/router.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/splash_page.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,13 +29,28 @@ class MyApp extends StatelessWidget {
           create: (context) => SplashLoadBloc(BlocProvider.of<ApplicationBloc>(context)),
         ),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
+      child: GlobalLoaderOverlay(
+        useDefaultLoading: false,
+        overlayOpacity: 0.5,
+        overlayColor: Colors.black,
+        overlayWidget: buildOverlayLoader(),
+        child: MaterialApp(
+          title: 'Flutter Redemption',
+          theme: ThemeData(
+            primarySwatch: Colors.deepPurple,
+          ),
+          onGenerateRoute: MobileRouter.generateRoute,
+          home: const SplashPage(),
         ),
-        onGenerateRoute: MobileRouter.generateRoute,
-        home: const SplashPage(),
+      ),
+    );
+  }
+
+  Widget buildOverlayLoader() {
+    return Center(
+      child: LoadingAnimationWidget.discreteCircle(
+        color: Colors.deepPurple,
+        size: 100,
       ),
     );
   }
