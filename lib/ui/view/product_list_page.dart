@@ -57,12 +57,14 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const Key('INIT_PRODUCT_LIST'),
       appBar: AppBar(
         title: BlocBuilder<ApplicationBloc, ApplicationState>(
           builder: (context, state) {
             CustomerData? custData = state.userSession?.userDataRs?.customerData;
             if (custData != null) {
               return Row(
+                key: const Key('SHOW_PRODUCT_LIST'),
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(custData.name ?? ''),
@@ -71,7 +73,9 @@ class _ProductListPageState extends State<ProductListPage> {
               );
             }
 
-            return Container();
+            return Container(
+              key: const Key('NOT_SHOW_PRODUCT_LIST'),
+            );
           },
         ),
       ),

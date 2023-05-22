@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_redemption_scbtechx/bloc/application/application_bloc.dart';
 import 'package:flutter_redemption_scbtechx/bloc/redemption/redemption_bloc.dart';
 import 'package:flutter_redemption_scbtechx/bloc/splash_load/splash_load_bloc.dart';
+import 'package:flutter_redemption_scbtechx/services/redemption_service.dart';
 import 'package:flutter_redemption_scbtechx/ui/router.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/splash_page.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -25,9 +26,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<RedemptionBloc>(
           create: (context) => RedemptionBloc(BlocProvider.of<ApplicationBloc>(context)),
         ),
-        BlocProvider<SplashLoadBloc>(
-          create: (context) => SplashLoadBloc(BlocProvider.of<ApplicationBloc>(context)),
-        ),
       ],
       child: GlobalLoaderOverlay(
         useDefaultLoading: false,
@@ -40,7 +38,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.deepPurple,
           ),
           onGenerateRoute: MobileRouter.generateRoute,
-          home: const SplashPage(),
+          home: const Splash(),
         ),
       ),
     );

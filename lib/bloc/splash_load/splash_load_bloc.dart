@@ -13,10 +13,10 @@ part 'splash_load_event.dart';
 part 'splash_load_state.dart';
 
 class SplashLoadBloc extends Bloc<SplashLoadEvent, SplashLoadState> {
-  final RedemptionService _redemptionService = RedemptionService();
+  final RedemptionService _redemptionService;
   final ApplicationBloc applicationBloc;
 
-  SplashLoadBloc(this.applicationBloc) : super(InitialSplashLoadState()) {
+  SplashLoadBloc(this.applicationBloc, this._redemptionService) : super(InitialSplashLoadState()) {
     on<SplashLoadInitEvent>((event, emit) => mapSplashLoadInitEventToState(event, emit));
   }
 

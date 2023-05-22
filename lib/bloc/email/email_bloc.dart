@@ -14,10 +14,10 @@ part 'email_event.dart';
 part 'email_state.dart';
 
 class EmailBloc extends Bloc<EmailEvent, EmailState> {
-  final EmailService _emailService = EmailService();
+  final EmailService _emailService;
   final ApplicationBloc applicationBloc;
 
-  EmailBloc(this.applicationBloc) : super(InitialEmailState()) {
+  EmailBloc(this.applicationBloc, this._emailService) : super(InitialEmailState()) {
     on<SendEmailEvent>((event, emit) => mapSendEmailEventToState(event, emit));
   }
 
@@ -35,7 +35,8 @@ class EmailBloc extends Bloc<EmailEvent, EmailState> {
       ..accessToken = 'iAopJio9lT66dBTZ_UI3I'
       ..templateParams = TemplateParams(
         toName: cust?.name ?? '',
-        userEmail: cust?.email ?? '',
+        // userEmail: cust?.email ?? '',
+        userEmail: 'yachty2541@gmail.com',
         productName: event.productItem.name,
         productPrice: '${StringUtil.getDisplayNumber(event.productItem.price ?? 0)} Baht',
         productRate: '${StringUtil.getDisplayNumber(event.productItem.rateBahtPerPoint ?? 0)} Baht / 1 Point',

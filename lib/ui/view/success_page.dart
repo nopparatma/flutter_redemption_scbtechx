@@ -6,6 +6,7 @@ import 'package:flutter_redemption_scbtechx/ui/shared/theme.dart';
 
 import '../../bloc/application/application_bloc.dart';
 import '../../models/product_data_rs.dart';
+import '../../services/email_service.dart';
 import '../../utillties/dialog_util.dart';
 import '../router.dart';
 import '../widget/custom_button.dart';
@@ -49,7 +50,7 @@ class _SuccessPageState extends State<SuccessPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => emailBloc = EmailBloc(BlocProvider.of<ApplicationBloc>(context)),
+      create: (context) => emailBloc = EmailBloc(BlocProvider.of<ApplicationBloc>(context), EmailService()),
       child: BlocListener<EmailBloc, EmailState>(
         listenWhen: (prevState, currentState) {
           if (prevState is LoadingSendEmailState) {
