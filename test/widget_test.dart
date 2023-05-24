@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_redemption_scbtechx/ui/router.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/product_detail_page.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/product_list_page.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/splash_page.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_redemption_scbtechx/main.dart';
@@ -37,7 +39,12 @@ void main() {
   late MockRedemptionService mockRedemptionService;
   late MockEmailService mockEmailService;
 
+  ProductDataRs productDataRs = ProductDataRs.fromJson(jsonDecode(fakeResponseProductData));
+  UserDataRs userDataRs = UserDataRs.fromJson(jsonDecode(fakeResponseUserData));
+
   setUp(() {
+    HttpOverrides.global = null;
+
     mockRedemptionService = MockRedemptionService();
     mockEmailService = MockEmailService();
 
@@ -46,12 +53,15 @@ void main() {
     redemptionBloc = RedemptionBloc(applicationBloc);
     emailBloc = EmailBloc(applicationBloc, mockEmailService);
 
-    when(mockRedemptionService.getUserData()).thenAnswer((_) async => UserDataRs.fromJson(jsonDecode(fakeResponseUserData)));
-    when(mockRedemptionService.getProductData()).thenAnswer((_) async => ProductDataRs.fromJson(jsonDecode(fakeResponseProductData)));
+    when(mockRedemptionService.getUserData()).thenAnswer((_) async => userDataRs);
+    when(mockRedemptionService.getProductData()).thenAnswer((_) async => productDataRs);
   });
 
   tearDown(() {
     splashLoadBloc.close();
+    applicationBloc.close();
+    redemptionBloc.close();
+    emailBloc.close();
   });
 
   Widget createWidget() {
@@ -64,33 +74,49 @@ void main() {
           create: (context) => redemptionBloc,
         ),
       ],
-      child: GlobalLoaderOverlay(
-        useDefaultLoading: false,
-        overlayOpacity: 0.5,
-        overlayColor: Colors.black,
-        // overlayWidget: buildOverlayLoader(),
-        child: MaterialApp(
-          title: 'Flutter Redemption',
-          theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
-          ),
-          onGenerateRoute: MobileRouter.generateRoute,
-          home: SplashPage(splashLoadBloc: splashLoadBloc),
+      child: MaterialApp(
+        title: 'Flutter Redemption',
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
         ),
+        onGenerateRoute: MobileRouter.generateRoute,
+        home: SplashPage(splashLoadBloc: splashLoadBloc),
       ),
     );
   }
 
   testWidgets('SplashPage first view', (WidgetTester tester) async {
+    await tester.pumpWidget(createWidget());
+    await tester.pump();
 
+    expect(find.byType(SplashPage), findsOneWidget);
+    expect(find.byType(ProductListPage), findsNothing);
+
+    // pump จนกว่า Animate ในหน้านั้นจะทำเสร็จ
+    await tester.pumpAndSettle();
+
+    expect(find.byType(SplashPage), findsNothing);
+    expect(find.byType(ProductListPage), findsOneWidget);
+  });
+
+  testWidgets('Count all item must be equal data from API', (WidgetTester tester) async {
     await tester.pumpWidget(createWidget());
     await tester.pumpAndSettle();
 
-    expect(find.byKey(const Key('INIT_SPLASH_PAGE')), findsOneWidget);
-    expect(find.byKey(const Key('LOADING_SPLASH')), findsOneWidget);
+    expect(find.byType(Card), findsNWidgets(productDataRs.product?.length ?? 0));
+  });
 
-    await tester.pump(const Duration(seconds: 10));
+  testWidgets('Tap item to change page to ProductDetailPage', (WidgetTester tester) async {
+    await tester.pumpWidget(createWidget());
     await tester.pumpAndSettle();
-    expect(find.byKey(const Key('INIT_PRODUCT_LIST')), findsOneWidget);
+
+    expect(find.byType(ProductListPage), findsOneWidget);
+    expect(find.byType(ProductDetailPage), findsNothing);
+
+    await tester.tap(find.byType(Card).first);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ProductListPage), findsNothing);
+    expect(find.byType(ProductDetailPage), findsOneWidget);
   });
 }

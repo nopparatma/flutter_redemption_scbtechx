@@ -66,12 +66,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         child: Stack(
                           children: [
                             Center(
-                              child: CachedNetworkImage(
+                              child: Image.network(
+                                widget.productItem.image ?? '',
                                 alignment: Alignment.center,
-                                imageUrl: widget.productItem.image ?? '',
                                 fit: BoxFit.contain,
                                 height: 300,
-                                errorWidget: (context, url, error) {
+                                errorBuilder: (context, url, error) {
                                   return Container(color: Colors.grey);
                                 },
                               ),

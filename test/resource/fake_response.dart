@@ -28,13 +28,6 @@ const fakeResponseProductData = '''
          "stock":0
       },
       {
-         "name":"Philips 3000 Series Air Fryer",
-         "description":"Philips 3000 Series Air Fryer Essential Compact with Rapid Air Technology, 13-in-1 Cooking Functions to Fry, Bake, Grill, Roast & Reheat with up to 90% Less Fat*, Black, 4.1L capacity, (HD9252/91)",
-         "price":3200,
-         "rateBahtPerPoint":8,
-         "stock":2
-      },
-      {
          "name":"XIAOMI Smart Air Purifier 4 Lite (34964)",
          "description":"",
          "image":"https://i01.appmifile.com/webfile/globalimg/products/m/xiaomi-smart-air-purifier-4-pro/section11Img.png",
@@ -43,7 +36,7 @@ const fakeResponseProductData = '''
          "stock":3
       },
       {
-         "name":"MacBook",
+         "name":"MacBook2",
          "description":"MacBook is a term used for a brand of Mac notebook computers that Apple started producing in 2006. The American multinational corporation created MacBook computers when it consolidated its PowerBook and iBook lines during its transition to Intel processor-based products. As of 2013, there are two types of MacBook computers: the base-level MacBook Air and the upper-level MacBook Pro.",
          "image":"https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HA244?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1670455592623",
          "price":40000,

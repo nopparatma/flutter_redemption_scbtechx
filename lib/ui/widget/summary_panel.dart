@@ -24,12 +24,12 @@ class SummaryPanel extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                   elevation: 5,
-                  child: CachedNetworkImage(
+                  child: Image.network(
+                    productItem.image ?? '',
                     alignment: Alignment.center,
-                    imageUrl: productItem.image ?? '',
                     fit: BoxFit.contain,
                     height: 300,
-                    errorWidget: (context, url, error) {
+                    errorBuilder: (context, url, error) {
                       return Container(color: Colors.grey);
                     },
                   ),

@@ -57,14 +57,14 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: const Key('INIT_PRODUCT_LIST'),
+      key: const Key('INIT_PRODUCT_LIST_PAGE'),
       appBar: AppBar(
         title: BlocBuilder<ApplicationBloc, ApplicationState>(
           builder: (context, state) {
             CustomerData? custData = state.userSession?.userDataRs?.customerData;
             if (custData != null) {
               return Row(
-                key: const Key('SHOW_PRODUCT_LIST'),
+                key: const Key('SHOW_USER_DATA'),
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(custData.name ?? ''),
@@ -87,6 +87,7 @@ class _ProductListPageState extends State<ProductListPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomDropdownButton(
+                  key: const Key('SHOW_DROPDOWN'),
                   hint: 'Sort',
                   dropdownItems: items,
                   value: selectedValue,
@@ -105,6 +106,7 @@ class _ProductListPageState extends State<ProductListPage> {
             builder: (context, state) {
               if (state is LoadingRedemptionState) {
                 return Expanded(
+                  key: const Key('LOADING_PRODUCT'),
                   child: Center(
                     child: LoadingAnimationWidget.discreteCircle(
                       color: Colors.deepPurple,
@@ -114,6 +116,7 @@ class _ProductListPageState extends State<ProductListPage> {
                 );
               } else if (state is SuccessSortDataState && state.products != null) {
                 return Expanded(
+                  key: const Key('LOADING_PRODUCT_SUCCESS'),
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: [
@@ -153,12 +156,12 @@ class _ProductListPageState extends State<ProductListPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CachedNetworkImage(
+            Image.network(
+              '${productItem.image}',
               alignment: Alignment.center,
-              imageUrl: '${productItem.image}',
               fit: BoxFit.contain,
               height: 100,
-              errorWidget: (context, url, error) {
+              errorBuilder: (context, url, error) {
                 return Container(color: Colors.grey);
               },
             ),
@@ -167,6 +170,7 @@ class _ProductListPageState extends State<ProductListPage> {
                 Expanded(
                   child: Text(
                     productItem.name ?? '',
+                    // key: const Key('PRODUCT_ITEM'),
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
