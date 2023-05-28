@@ -1,7 +1,7 @@
 class ProductDataRs {
   List<Product>? product;
 
-  ProductDataRs({product});
+  ProductDataRs({this.product});
 
   ProductDataRs.fromJson(Map<String, dynamic> json) {
     if (json['product'] != null) {
@@ -34,7 +34,7 @@ class Product {
   num? rateBahtPerPoint;
   num? stock;
 
-  Product({name, description, image, price, rateBahtPerPoint, stock});
+  Product({this.name, this.description, this.image, this.price, this.rateBahtPerPoint, this.stock});
 
   Product.fromJson(Map<String, dynamic> json) {
     name = json['name'];

@@ -7,4 +7,9 @@ class UserSessionDto {
   List<Product>? favoriteProducts;
 
   UserSessionDto({this.useRedemptionAmt = 0, this.userDataRs, this.favoriteProducts});
+
+  @override
+  String toString() {
+    return 'UserSessionDto{useRedemptionAmt: $useRedemptionAmt, userDataRs: $userDataRs, favoriteProducts: $favoriteProducts}';
+  }
 }

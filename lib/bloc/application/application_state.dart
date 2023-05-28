@@ -12,7 +12,7 @@ class ApplicationState extends Equatable {
 
   @override
   String toString() {
-    return 'ApplicationState{userSession: $userSession}';
+    return 'ApplicationState{userSession: $userSession, masterProducts: $masterProducts}';
   }
 
   @override

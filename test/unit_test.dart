@@ -4,6 +4,8 @@ import 'package:flutter_redemption_scbtechx/bloc/redemption/redemption_bloc.dart
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+
+
   test('Redemption & subtract point', () {
     // Process
     //
