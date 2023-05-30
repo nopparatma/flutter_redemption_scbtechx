@@ -43,6 +43,7 @@ void main() {
     () {
       applicationBloc.close();
       splashLoadBloc.close();
+      redemptionBloc.close();
     },
   );
 
@@ -76,15 +77,47 @@ void main() {
 
   group('RedemptionBloc', () {
     blocTest<RedemptionBloc, RedemptionState>(
-      'sort data by price',
-      build: () => redemptionBloc,
+      'sort data by price [low > high]',
       setUp: () {
         applicationBloc.add(ApplicationUpdateStateModelEvent(masterProducts: [iphone, macbook, ipad]));
       },
+      build: () => redemptionBloc,
       act: (bloc) => bloc.add(SortDataEvent(sortMode: Sort.price)),
       expect: () => [
         isA<LoadingRedemptionState>(),
         SuccessSortDataState(products: [ipad, iphone, macbook]),
+      ],
+    );
+
+    blocTest<RedemptionBloc, RedemptionState>(
+      'sort data by rate [low > high]',
+      setUp: () {
+        applicationBloc.add(ApplicationUpdateStateModelEvent(masterProducts: [iphone, macbook, ipad]));
+      },
+      build: () => redemptionBloc,
+      act: (bloc) => bloc.add(SortDataEvent(sortMode: Sort.rate)),
+      expect: () => [
+        isA<LoadingRedemptionState>(),
+        SuccessSortDataState(products: [macbook, ipad, iphone]),
+      ],
+    );
+
+    blocTest<RedemptionBloc, RedemptionState>(
+      'use redemption 300 point',
+      setUp: () {
+        applicationBloc.add(ApplicationUpdateStateModelEvent(
+          userSession: userTest,
+        ));
+      },
+      build: () => redemptionBloc,
+      act: (bloc) => [
+        bloc.add(RedemptionPointEvent(pointUsed: 100)),
+        bloc.add(RedemptionPointEvent(pointUsed: 100)),
+        bloc.add(RedemptionPointEvent(pointUsed: 100)),
+      ],
+      skip: 2,
+      expect: () => [
+        SuccessRedemptionPointState(useRedemptionAmt: 300),
       ],
     );
   });

@@ -27,9 +27,13 @@ class CustomButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                text ?? '',
-                style: Theme.of(context).textTheme.large.copyWith(color: Colors.white),
+              Expanded(
+                child: Text(
+                  text ?? '',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.large.copyWith(color: Colors.white),
+                ),
               ),
             ],
           ),

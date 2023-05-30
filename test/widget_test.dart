@@ -15,12 +15,8 @@ import 'package:flutter_redemption_scbtechx/ui/router.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/product_detail_page.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/product_list_page.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/splash_page.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_redemption_scbtechx/main.dart';
-import 'package:loader_overlay/loader_overlay.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 

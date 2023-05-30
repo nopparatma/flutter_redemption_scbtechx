@@ -34,17 +34,19 @@ class _RedemptionPageState extends State<RedemptionPage> {
       },
       child: Scaffold(
         appBar: AppBar(),
-        body: Column(
-          children: [
-            SummaryPanel(productItem: widget.productItem, pointUsed: pointUsed, pointBalance: pointBalance),
-            CustomButton(
-              text: 'Redeem',
-              color: Colors.green,
-              onPressed: () {
-                context.read<RedemptionBloc>().add(RedemptionPointEvent(pointUsed: pointUsed));
-              },
-            ),
-          ],
+        body: SafeArea(
+          child: Column(
+            children: [
+              SummaryPanel(productItem: widget.productItem, pointUsed: pointUsed, pointBalance: pointBalance),
+              CustomButton(
+                text: 'Redeem',
+                color: Colors.green,
+                onPressed: () {
+                  context.read<RedemptionBloc>().add(RedemptionPointEvent(pointUsed: pointUsed));
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

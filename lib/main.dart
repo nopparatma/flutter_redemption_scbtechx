@@ -10,6 +10,8 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.deepPurple,
           ),
+          debugShowCheckedModeBanner: false,
           onGenerateRoute: MobileRouter.generateRoute,
           home: const Splash(),
         ),

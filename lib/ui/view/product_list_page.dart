@@ -79,63 +79,65 @@ class _ProductListPageState extends State<ProductListPage> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomDropdownButton(
-                  key: const Key('SHOW_DROPDOWN'),
-                  hint: 'Sort',
-                  dropdownItems: items,
-                  value: selectedValue,
-                  icon: const Icon(Icons.keyboard_arrow_down_outlined),
-                  onChanged: (value) {
-                    onChangedSort(value ?? '');
-                    setState(() {
-                      selectedValue = value;
-                    });
-                  },
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomDropdownButton(
+                    key: const Key('SHOW_DROPDOWN'),
+                    hint: 'Sort',
+                    dropdownItems: items,
+                    value: selectedValue,
+                    icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                    onChanged: (value) {
+                      onChangedSort(value ?? '');
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-          BlocBuilder<RedemptionBloc, RedemptionState>(
-            builder: (context, state) {
-              if (state is LoadingRedemptionState) {
-                return Expanded(
-                  key: const Key('LOADING_PRODUCT'),
-                  child: Center(
-                    child: LoadingAnimationWidget.discreteCircle(
-                      color: Colors.deepPurple,
-                      size: 100,
-                    ),
-                  ),
-                );
-              } else if (state is SuccessSortDataState && state.products != null) {
-                return Expanded(
-                  key: const Key('LOADING_PRODUCT_SUCCESS'),
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: StaggeredGrid.count(
-                          crossAxisCount: 2,
-                          children: state.products?.map((e) => _buildProductItem(e)).toList() ?? [],
-                        ),
+              ],
+            ),
+            BlocBuilder<RedemptionBloc, RedemptionState>(
+              builder: (context, state) {
+                if (state is LoadingRedemptionState) {
+                  return Expanded(
+                    key: const Key('LOADING_PRODUCT'),
+                    child: Center(
+                      child: LoadingAnimationWidget.discreteCircle(
+                        color: Colors.deepPurple,
+                        size: 100,
                       ),
-                    ],
-                  ),
-                );
-              }
+                    ),
+                  );
+                } else if (state is SuccessSortDataState && state.products != null) {
+                  return Expanded(
+                    key: const Key('LOADING_PRODUCT_SUCCESS'),
+                    child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: StaggeredGrid.count(
+                            crossAxisCount: 2,
+                            children: state.products?.map((e) => _buildProductItem(e)).toList() ?? [],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
 
-              return Container();
-            },
-          ),
-        ],
+                return Container();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -156,15 +158,20 @@ class _ProductListPageState extends State<ProductListPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network(
-              '${productItem.image}',
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-              height: 100,
-              errorBuilder: (context, url, error) {
-                return Container(color: Colors.grey);
-              },
-            ),
+            productItem.image == null || productItem.image == ''
+                ? Container(
+                    color: Colors.grey,
+                    height: 100,
+                  )
+                : Image.network(
+                    productItem.image ?? '',
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    height: 100,
+                    errorBuilder: (context, url, error) {
+                      return Container(color: Colors.grey);
+                    },
+                  ),
             Row(
               children: [
                 Expanded(

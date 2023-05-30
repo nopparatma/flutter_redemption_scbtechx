@@ -50,127 +50,134 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Card(
-                        elevation: 5,
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: Image.network(
-                                widget.productItem.image ?? '',
-                                alignment: Alignment.center,
-                                fit: BoxFit.contain,
-                                height: 300,
-                                errorBuilder: (context, url, error) {
-                                  return Container(color: Colors.grey);
-                                },
-                              ),
-                            ),
-                            BlocBuilder<ApplicationBloc, ApplicationState>(
-                              builder: (context, state) {
-                                bool isFavoriteProduct = state.isFavoriteProduct(widget.productItem);
-
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Stack(
-                                      children: <Widget>[
-                                        Positioned(
-                                          child: IconButton(
-                                            iconSize: 55,
-                                            icon: const Icon(
-                                              Icons.star,
-                                              color: Colors.black54,
-                                            ),
-                                            onPressed: () {},
-                                          ),
-                                        ),
-                                        IconButton(
-                                          iconSize: 50,
-                                          icon: Icon(
-                                            Icons.star,
-                                            color: isFavoriteProduct ? Colors.yellow : Colors.grey,
-                                          ),
-                                          onPressed: () {
-                                            onPressedStar(isFavoriteProduct);
-                                            setState(() {});
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      Card(
-                        elevation: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Card(
+                          elevation: 5,
+                          child: Stack(
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      widget.productItem.name ?? '',
-                                      style: Theme.of(context).textTheme.normal.copyWith(fontWeight: FontWeight.bold),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
+                              Center(
+                                child: widget.productItem.image == null || widget.productItem.image == ''
+                                    ? Container(
+                                        color: Colors.grey,
+                                        height: 100,
+                                      )
+                                    : Image.network(
+                                        widget.productItem.image ?? '',
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.contain,
+                                        height: 300,
+                                        errorBuilder: (context, url, error) {
+                                          return Container(color: Colors.grey);
+                                        },
+                                      ),
                               ),
-                              const SizedBox(height: 10),
-                              _buildText(
-                                StringUtil.getDisplayNumber(widget.productItem.price ?? 0),
-                                StringUtil.getDisplayNumber(widget.productItem.rateBahtPerPoint ?? 0),
+                              BlocBuilder<ApplicationBloc, ApplicationState>(
+                                builder: (context, state) {
+                                  bool isFavoriteProduct = state.isFavoriteProduct(widget.productItem);
+
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Stack(
+                                        children: <Widget>[
+                                          Positioned(
+                                            child: IconButton(
+                                              iconSize: 55,
+                                              icon: const Icon(
+                                                Icons.star,
+                                                color: Colors.black54,
+                                              ),
+                                              onPressed: () {},
+                                            ),
+                                          ),
+                                          IconButton(
+                                            iconSize: 50,
+                                            icon: Icon(
+                                              Icons.star,
+                                              color: isFavoriteProduct ? Colors.yellow : Colors.grey,
+                                            ),
+                                            onPressed: () {
+                                              onPressedStar(isFavoriteProduct);
+                                              setState(() {});
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          widget.productItem.description ?? '',
-                          style: Theme.of(context).textTheme.normal.copyWith(fontWeight: FontWeight.bold),
+                        Card(
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        widget.productItem.name ?? '',
+                                        style: Theme.of(context).textTheme.normal.copyWith(fontWeight: FontWeight.bold),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                _buildText(
+                                  StringUtil.getDisplayNumber(widget.productItem.price ?? 0),
+                                  StringUtil.getDisplayNumber(widget.productItem.rateBahtPerPoint ?? 0),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Text(
+                            widget.productItem.description ?? '',
+                            style: Theme.of(context).textTheme.normal.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          isSoldOut
-              ? CustomButton(
-                  text: 'Sold Out',
-                  color: Colors.grey,
-                  onPressed: () {},
-                )
-              : CustomButton(
-                  text: 'Next',
-                  color: Colors.green,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(RoutePaths.redemptionPage, arguments: {'productItem': widget.productItem});
-                  },
-                ),
-        ],
+            isSoldOut
+                ? CustomButton(
+                    text: 'Sold Out',
+                    color: Colors.grey,
+                    onPressed: () {},
+                  )
+                : CustomButton(
+                    text: 'Next',
+                    color: Colors.green,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(RoutePaths.redemptionPage, arguments: {'productItem': widget.productItem});
+                    },
+                  ),
+          ],
+        ),
       ),
     );
   }

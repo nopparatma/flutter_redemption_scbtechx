@@ -24,15 +24,20 @@ class SummaryPanel extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                   elevation: 5,
-                  child: Image.network(
-                    productItem.image ?? '',
-                    alignment: Alignment.center,
-                    fit: BoxFit.contain,
-                    height: 300,
-                    errorBuilder: (context, url, error) {
-                      return Container(color: Colors.grey);
-                    },
-                  ),
+                  child: productItem.image == null || productItem.image == ''
+                      ? Container(
+                          color: Colors.grey,
+                          height: 100,
+                        )
+                      : Image.network(
+                          productItem.image ?? '',
+                          alignment: Alignment.center,
+                          fit: BoxFit.contain,
+                          height: 300,
+                          errorBuilder: (context, url, error) {
+                            return Container(color: Colors.grey);
+                          },
+                        ),
                 ),
               ),
               const SizedBox(height: 20),

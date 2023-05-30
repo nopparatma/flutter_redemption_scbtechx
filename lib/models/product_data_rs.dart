@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class ProductDataRs {
   List<Product>? product;
 
@@ -34,7 +36,7 @@ class Product {
   num? rateBahtPerPoint;
   num? stock;
 
-  Product({this.name, this.description, this.image, this.price, this.rateBahtPerPoint, this.stock});
+  Product({this.name = '', this.description = '', this.image = '', this.price = 0, this.rateBahtPerPoint = 0, this.stock = 0});
 
   Product.fromJson(Map<String, dynamic> json) {
     name = json['name'];

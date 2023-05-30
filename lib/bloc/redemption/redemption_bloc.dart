@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_redemption_scbtechx/models/view/user_session_dto.dart';
 import 'package:flutter_redemption_scbtechx/ui/view/product_list_page.dart';
 import 'package:flutter_redemption_scbtechx/utillties/math_util.dart';
@@ -48,6 +49,6 @@ class RedemptionBloc extends Bloc<RedemptionEvent, RedemptionState> {
       ),
     );
 
-    emit(SuccessRedemptionPointState());
+    emit(SuccessRedemptionPointState(useRedemptionAmt: userSessionDto?.useRedemptionAmt ?? 0));
   }
 }

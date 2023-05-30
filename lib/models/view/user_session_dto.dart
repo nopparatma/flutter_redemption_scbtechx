@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_redemption_scbtechx/models/product_data_rs.dart';
 import 'package:flutter_redemption_scbtechx/models/user_data_rs.dart';
 
-class UserSessionDto {
+class UserSessionDto extends Equatable {
   num useRedemptionAmt;
   UserDataRs? userDataRs;
   List<Product>? favoriteProducts;
@@ -12,4 +13,7 @@ class UserSessionDto {
   String toString() {
     return 'UserSessionDto{useRedemptionAmt: $useRedemptionAmt, userDataRs: $userDataRs, favoriteProducts: $favoriteProducts}';
   }
+
+  @override
+  List<Object?> get props => [useRedemptionAmt, userDataRs, favoriteProducts];
 }
